@@ -1,10 +1,7 @@
 import configparser
 import datetime
 import pandas as pd
-import pyodbc
 from binance import Client
-from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
 
 start_time = (datetime.datetime.now())
 
@@ -13,25 +10,6 @@ config.read('auth.ini')
 
 binance_api_key = config['binance']['api_key']
 binance_secret_key = config['binance']['secret_key']
-
-driver = config['Settings']['driver']
-server = config['Settings']['server']
-database = config['Settings']['database']
-uid = config['Settings']['username']
-password = config['Settings']['password']
-
-#connection string
-cnxn = pyodbc.connect(
-    DRIVER=driver, 
-    SERVER=server, 
-    DATABASE=database, 
-    UID=uid, 
-    PWD=password
-    )
-connection_string = 'DRIVER='+driver+';SERVER='+server+';DATABASE='+database+';UID='+uid+';PWD='+password
-cnxn_url = URL.create("mssql+pyodbc", query={"odbc_connect": connection_string})
-
-engine = create_engine(cnxn_url)
 
 client = Client(binance_api_key, binance_secret_key)
 
